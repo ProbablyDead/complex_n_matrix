@@ -18,8 +18,8 @@ public class Complex {
    * @see Complex#Complex(double, double)
    * */
   Complex () { 
-    this.real = 0;
-    this.imag = 0;
+    real = 0;
+    imag = 0;
   }
   
   /** Конструктор, создающий комплексное число с определенным значением
@@ -35,57 +35,45 @@ public class Complex {
   /** Прибавление к комплексному числа другого
    * @param dig слагаемое
    * */
-  public void add (Complex dig) { 
-    this.real += dig.real;
-    this.imag += dig.imag;
+  public Complex add (Complex dig) { 
+    return new Complex(this.real + dig.real, this.imag + dig.imag); 
   }
   
   /** Вычитание из комплексного числа другого
    * @param dig вычитаемое
    * */
-  public void subtraction (Complex dig) { 
-    this.real -= dig.real;
-    this.imag -= dig.imag;
+  public Complex subtraction (Complex dig) { 
+    return new Complex(this.real - dig.real, this.imag - dig.imag);
   }
 
   /** Умножение комплексного числа на другое
    * @param dig множитель
    * */
-  public void multiplication (Complex dig) {
-    Complex tmp = new Complex(this.real*dig.real - this.imag*dig.imag,
+  public Complex multiplication (Complex dig) {
+    return new Complex(this.real*dig.real - this.imag*dig.imag,
         this.real*dig.imag + dig.real*this.imag);
-    this.copy(tmp);
   }
 
   /** Деление комплексного числа на другое
    * @param dig делитель
    * */
-  public void division (Complex dig) {
+  public Complex division (Complex dig) {
     double tmp_real = (this.real*dig.real + this.imag*dig.imag)/(dig.real*dig.real + dig.imag*dig.imag);
     double tmp_img = (this.imag*dig.real - this.real*dig.imag)/(dig.real*dig.real + dig.imag*dig.imag);
-    Complex tmp = new Complex(tmp_real, tmp_img);
-    this.copy(tmp);
-  }
-  
-  /** Копирование комплексного числа 
-   * @param dig копируемое
-   * */
-  public void copy (Complex dig) {
-    this.real = dig.real;
-    this.imag = dig.imag;
+    return new Complex(tmp_real, tmp_img);
   }
   
   /** Получение сопряженного комплексному */
-  public void conjugate () {
-    imag = -imag;
+  public Complex conjugate () {
+    return new Complex(real, -imag);
   }
 
   /** Вывод тригонометрической формы комплексного числа */
-  public void trigonometricForm () {
+  public String trigonometricForm () {
     double r = Math.sqrt(real*real + imag*imag);
     double cos = real/r;
     double sin = imag/r;
-    System.out.println(r + "*(" + cos + (sin >= 0 ? "+" : "") + sin + "*i)");
+    return (r + "*(" + cos + (sin >= 0 ? "+" : "") + sin + "*i)");
   }
 
   /** Вывод комплексного числа  */
