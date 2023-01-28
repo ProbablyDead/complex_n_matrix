@@ -4,9 +4,15 @@
  * */
 public class Complex {
   /** Поле действительной части комплексного числа */
-  public double real;
+  private double real;
   /** Поле мнимой части комплексного числа */
-  public double imag;
+  private double imag;
+
+  /** Получение действительной части */
+  public double getReal () { return this.real; }
+
+  /** Получение мнимой части */
+  public double getImag () { return this.imag; }
 
   /** Конструктор, создающий нулевое комплексное число 
    * @see Complex#Complex(double, double)
@@ -75,7 +81,7 @@ public class Complex {
   }
 
   /** Вывод тригонометрической формы комплексного числа */
-  public void trigonometric_form () {
+  public void trigonometricForm () {
     double r = Math.sqrt(real*real + imag*imag);
     double cos = real/r;
     double sin = imag/r;
@@ -83,7 +89,8 @@ public class Complex {
   }
 
   /** Вывод комплексного числа  */
-  public void print () {
-    System.out.println(real + (imag >= 0 ? "+" : "") + imag + "*i");
+  @Override
+  public String toString () {
+    return real + (imag >= 0 ? "+" : "") + imag + "*i";
   }
 }
