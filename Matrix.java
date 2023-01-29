@@ -92,7 +92,7 @@ public class Matrix {
    return result;
   }
 
-  public Matrix transposition() {
+  public Matrix transposition () {
     Matrix result = new Matrix(this.columns, this.rows);
     for (int i = 0; i < result.rows; ++i) {
       for (int j = 0; j < result.columns; ++j) {
@@ -100,5 +100,37 @@ public class Matrix {
       }
     }
     return result;
+  }
+
+  public Complex det () {
+    if (this.rows != this.columns) {
+      System.out.println("It is impossible to calculate the determinant");
+      return null;
+    }
+    
+    if (this.rows == 1 && this.columns == 1) return this.matrix[0][0];
+    
+    Complex result = new Complex();
+    int row = 0; int column = 0;
+    for (; column < this.columns; ++column) {
+      Complex minor = this.lineDecomposition(row, column).det();
+      Complex minOne = new Complex(Math.pow(-1, row + column), 0);
+      result = result.add(minOne.multiplication(this.matrix[row][column]).multiplication(minor));
+    }
+    return result;
+  }
+
+  private Matrix lineDecomposition (int row, int column) {
+    Matrix tmp = new Matrix(this.rows - 1, this.columns - 1);
+    String str = "";
+    for (int i = 0; i < this.rows; ++i) {
+      for (int j = 0; j < this.columns; ++j) {
+        if (i != row && j != column) {
+          str += this.matrix[i][j].getReal() + "," + this.matrix[i][j].getImag() + " ";
+        }
+      }
+    }
+    tmp.fill_matrix(new Scanner(str));
+    return tmp;
   }
 }
