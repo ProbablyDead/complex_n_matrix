@@ -1,22 +1,35 @@
 import java.util.Scanner;
 
+/** Класс матриц
+ * @author the_best_earth_spirit_player
+ * */
 public class Matrix {
   private Complex[][] matrix;
   private int rows;
   private int columns;
 
+  /** Конструктор квадратной матрицы
+   * @param ROWS_AND_COLUMNS_NUMBER количество строк и столбцов
+   * */
   Matrix (int ROWS_AND_COLUMNS_NUMBER) {
     this.matrix = new Complex[ROWS_AND_COLUMNS_NUMBER][ROWS_AND_COLUMNS_NUMBER];
     this.rows = ROWS_AND_COLUMNS_NUMBER;
     this.columns = ROWS_AND_COLUMNS_NUMBER;
   }
 
+  /** Конструктор произвольной матрицы
+   * @param ROWS_NUMBER количество строк
+   * @param COLUMNS_NUMBER количество столбцов
+   * */
   Matrix (int ROWS_NUMBER, int COLUMNS_NUMBER) {
     this.matrix = new Complex[ROWS_NUMBER][COLUMNS_NUMBER];
     this.rows = ROWS_NUMBER;
     this.columns = COLUMNS_NUMBER;
   }
 
+  /** Заполнение матрицы 
+   * @param in от куда заполняется (файл, консоль)
+   * */
   public void fill_matrix (Scanner in) {
     for (int i = 0; i < rows; ++i) {
       for (int j = 0; j < columns; ++j) {
@@ -25,6 +38,7 @@ public class Matrix {
     }
   }
   
+  /** Вывод матрицы */
   @Override
   public String toString () {
     String result = "";
@@ -37,6 +51,9 @@ public class Matrix {
     return result;
   }
 
+  /** Сложение матриц
+   * @param arr слагаемое
+   * */
   public Matrix add (Matrix arr) {
     if (!checkForAdd(arr)) return null;
 
@@ -49,6 +66,9 @@ public class Matrix {
     return tmp;
   }
 
+  /** Вычитание матриц
+   * @param arr вычитаемое
+   * */
   public Matrix sub (Matrix arr) {
     if (!checkForAdd(arr)) return null;
 
@@ -61,6 +81,9 @@ public class Matrix {
     return tmp;
   }
 
+  /** Проверка на возможность сложения/вычитания
+   * @param arr проверяемое 
+   * */
   private boolean checkForAdd (Matrix arr) {
     if (this.rows != arr.rows || this.columns != arr.columns) {
       System.out.println("Cannot add/sub up matrices");
@@ -69,6 +92,9 @@ public class Matrix {
     else return true;
   }
 
+  /** Проверка на возможность умножения
+   * @param arr проверяемое 
+   * */
   private boolean checkForMult (Matrix arr) {
     if (this.columns != arr.rows) {
       System.out.println("Cannot multiply matrices");
@@ -77,6 +103,9 @@ public class Matrix {
     else return true;
   }
 
+  /** Умножение матриц
+   * @param arr множитель
+   * */
   public Matrix multiply (Matrix arr) {
     if (!this.checkForMult(arr)) return null;
     Matrix result = new Matrix(this.rows, arr.columns);
@@ -92,6 +121,7 @@ public class Matrix {
    return result;
   }
 
+  /** Транспонирование матрицы */
   public Matrix transposition () {
     Matrix result = new Matrix(this.columns, this.rows);
     for (int i = 0; i < result.rows; ++i) {
@@ -102,6 +132,7 @@ public class Matrix {
     return result;
   }
 
+  /** Получение детерминанта */
   public Complex det () {
     if (this.rows != this.columns) {
       System.out.println("It is impossible to calculate the determinant");
@@ -120,6 +151,9 @@ public class Matrix {
     return result;
   }
 
+  /** Получение минора
+   * @param row строка
+   * @param column колона */
   private Matrix lineDecomposition (int row, int column) {
     Matrix tmp = new Matrix(this.rows - 1, this.columns - 1);
     String str = "";
