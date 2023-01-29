@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 /**
  * Класс комплексных чисел 
  * @author the_best_earth_spirit_player
@@ -81,4 +83,16 @@ public class Complex {
   public String toString () {
     return real + (imag >= 0 ? "+" : "") + imag + "*i";
   }
+
+  /** Ввод комплексногочисла в формате "real,imag" */
+  public static Complex input (Scanner in) {
+    String[] str = in.next().split(",");
+    if (str.length == 1) {
+      return new Complex(Double.parseDouble(str[0]), 0);
+    }
+    else {
+      return new Complex(Double.parseDouble(str[0]), Double.parseDouble(str[1]));
+    }
+  }
+
 }
