@@ -84,9 +84,15 @@ public class Complex {
     return real + (imag >= 0 ? "+" : "") + imag + "*i";
   }
 
-  /** Ввод комплексного числа в формате "real,imag" */
+  /** Ввод комплексногочисла в формате "real,imag" */
   public static Complex input (Scanner in) {
     String[] str = in.next().split(",");
-    return new Complex(Double.parseDouble(str[0]), Double.parseDouble(str[1]));
+    if (str.length == 1) {
+      return new Complex(Double.parseDouble(str[0]), 0);
+    }
+    else {
+      return new Complex(Double.parseDouble(str[0]), Double.parseDouble(str[1]));
+    }
   }
+
 }
