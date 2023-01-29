@@ -91,4 +91,14 @@ public class Matrix {
     }
    return result;
   }
+
+  public Matrix transposition() {
+    Matrix result = new Matrix(this.columns, this.rows);
+    for (int i = 0; i < result.rows; ++i) {
+      for (int j = 0; j < result.columns; ++j) {
+        result.matrix[i][j] = new Complex(this.matrix[j][i].getReal(), this.matrix[j][i].getImag());
+      }
+    }
+    return result;
+  }
 }
