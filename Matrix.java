@@ -1,9 +1,11 @@
+import java.util.Hashtable;
 import java.util.Scanner;
 
 /** Класс матриц
  * @author the_best_earth_spirit_player
  * */
 public class Matrix {
+  private Hashtable<String, Matrix> MatrixTable = new Hashtable<String, Matrix>();
   private Complex[][] matrix;
   private int rows;
   private int columns;
@@ -36,6 +38,12 @@ public class Matrix {
         matrix[i][j] = Complex.input(in);
       }
     }
+  }
+
+  public void addMatrix (String name, String fill) {
+    
+
+
   }
   
   /** Вывод матрицы */

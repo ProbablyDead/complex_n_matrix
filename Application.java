@@ -11,6 +11,30 @@ public class Application extends JFrame {
   private JButton matrixList;
   private JButton deleteMatrix;
 
+  private class AddMatrixWindow extends JFrame {
+    private JTextArea fillMatrix;
+
+    private AddMatrixWindow (String matrixName) {
+      super(matrixName);
+      this.pack();
+      
+      fillMatrix = new JTextArea("3 3\n1 2 3\n1.2 1.3 1.4\n1.2,3.4 1,0 123.1,0.33\n", 70, 70);
+      fillMatrix.setLineWrap(true);
+      fillMatrix.setWrapStyleWord(true);
+
+      JPanel panel = new JPanel();
+      panel.add(new JScrollPane(fillMatrix));
+      setContentPane(panel);
+
+
+      setVisible(true);
+    }
+
+    private void createMatrix (String matrixName) {
+
+    }
+  }
+
   private JPanel getMainKeys () {
     createMatrix = new JButton("Create matrix");
     matrixCalculations = new JButton("Calculations");
@@ -19,10 +43,10 @@ public class Application extends JFrame {
 
     createMatrix.addActionListener(new ActionListener() {
       public void actionPerformed (ActionEvent event) {
-
         String matrixName = JOptionPane.showInputDialog("Input matrix name:");
-        System.out.println(matrixName);
 
+        AddMatrixWindow win = new AddMatrixWindow(matrixName);
+        win.createMatrix(matrixName);
       }
     });
 
