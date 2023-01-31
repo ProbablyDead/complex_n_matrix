@@ -28,7 +28,7 @@ public class Application extends JFrame {
       enter.addActionListener(new ActionListener() {
         public void actionPerformed (ActionEvent event) {
             Matrix.addMatrix(matrixName, fillMatrix.getText());
-
+            deleteMatrix.setEnabled(!Matrix.isMatrixEmpty());
             setVisible(false);
             dispose();
         }
@@ -65,26 +65,43 @@ public class Application extends JFrame {
     matrixCalculations = new JButton("Calculations");
     matrixList = new JButton("List");
     deleteMatrix = new JButton("Delete matrix");
+    deleteMatrix.setEnabled(!Matrix.isMatrixEmpty());
 
     createMatrix.addActionListener(new ActionListener() {
       public void actionPerformed (ActionEvent event) {
-        new AddMatrixWindow(JOptionPane.showInputDialog("Input matrix name:"));
+        String str = "";
+        while (str.isEmpty()) {
+          str = JOptionPane.showInputDialog("Input matrix name:");
+        }
+        new AddMatrixWindow(str);
       }
     });
     
     matrixCalculations.addActionListener(new ActionListener() {
       public void actionPerformed (ActionEvent event) {
+        deleteMatrix.setEnabled(!Matrix.isMatrixEmpty());
       }
     });
 
     matrixList.addActionListener(new ActionListener() {
       public void actionPerformed (ActionEvent event) {
         new AddMatrixWindow();
+        deleteMatrix.setEnabled(!Matrix.isMatrixEmpty());
+      }
+    });
+
+    deleteMatrix.addActionListener(new ActionListener() {
+      public void actionPerformed (ActionEvent event) {
+        String[] arr = Matrix.getMatriciesNames();
+        String result = (String)JOptionPane.showInputDialog( null, "Choose matrix", "Delete matrix", 
+            JOptionPane.QUESTION_MESSAGE, null, arr, arr[0]);
+        Matrix.deleteMatrix(result);
+        deleteMatrix.setEnabled(!Matrix.isMatrixEmpty());
       }
     });
 
     JPanel buttonsPanel = new JPanel(new FlowLayout());
-    buttonsPanel.setLayout(new GridLayout(5, 1, 100, 5));
+    buttonsPanel.setLayout(new GridLayout(4, 1, 100, 5));
 
     buttonsPanel.add(createMatrix, BorderLayout.NORTH);
     buttonsPanel.add(matrixCalculations, BorderLayout.NORTH);

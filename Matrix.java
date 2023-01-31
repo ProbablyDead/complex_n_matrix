@@ -1,4 +1,3 @@
-import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Scanner;
 
@@ -41,6 +40,10 @@ public class Matrix {
     }
   }
 
+  public static boolean isMatrixEmpty () {
+    return (MatrixTable.isEmpty());
+  }
+
   public static void addMatrix (String name, String fill) {
     Scanner str = new Scanner(fill);
     Matrix tmp = new Matrix(str.nextInt(), str.nextInt());
@@ -53,6 +56,15 @@ public class Matrix {
     String result = "";
     for (String key : MatrixTable.keySet()) {
       result += key + "\n" + MatrixTable.get(key) + "-".repeat(59) + "\n";
+    }
+    return result;
+  }
+
+  public static String[] getMatriciesNames () {
+    String[] result = new String[MatrixTable.size()];
+    int j = 0;
+    for (String i : MatrixTable.keySet()) {
+      result[j++] = i;
     }
     return result;
   }
@@ -83,6 +95,10 @@ public class Matrix {
       }
     }
     return tmp;
+  }
+
+  public static void deleteMatrix (String element) {
+    MatrixTable.remove(element);
   }
 
   /** Вычитание матриц
