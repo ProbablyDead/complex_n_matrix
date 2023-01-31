@@ -1,3 +1,4 @@
+import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Scanner;
 
@@ -5,7 +6,7 @@ import java.util.Scanner;
  * @author the_best_earth_spirit_player
  * */
 public class Matrix {
-  private Hashtable<String, Matrix> MatrixTable = new Hashtable<String, Matrix>();
+  private static Hashtable<String, Matrix> MatrixTable = new Hashtable<String, Matrix>();
   private Complex[][] matrix;
   private int rows;
   private int columns;
@@ -40,10 +41,20 @@ public class Matrix {
     }
   }
 
-  public void addMatrix (String name, String fill) {
-    
+  public static void addMatrix (String name, String fill) {
+    Scanner str = new Scanner(fill);
+    Matrix tmp = new Matrix(str.nextInt(), str.nextInt());
+    tmp.fill_matrix(str);
+    MatrixTable.put(name, tmp);
+    str.close();
+  }
 
+  public static void showMatricies () {
+    Enumeration<String> enumKey = MatrixTable.keys();
 
+    while (enumKey.hasMoreElements()) {
+      System.out.println(enumKey.nextElement());
+    }
   }
   
   /** Вывод матрицы */
@@ -127,6 +138,18 @@ public class Matrix {
       }
     }
    return result;
+  }
+
+  public Matrix multiply (Complex dig) {
+    Matrix result = new Matrix(this.rows, this.columns);
+
+    for (int i = 0; i < result.rows; ++i) {
+      for (int j = 0; j < result.columns; ++j) {
+        result.matrix[i][j] = this.matrix[i][j].multiplication(dig);
+      }
+    }
+
+    return result;
   }
 
   /** Транспонирование матрицы */

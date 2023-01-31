@@ -13,19 +13,32 @@ public class Application extends JFrame {
 
   private class AddMatrixWindow extends JFrame {
     private JTextArea fillMatrix;
+    private JButton enter;
+
 
     private AddMatrixWindow (String matrixName) {
       super(matrixName);
-      this.pack();
+      setBounds(100, 100, 800, 680);
       
-      fillMatrix = new JTextArea("3 3\n1 2 3\n1.2 1.3 1.4\n1.2,3.4 1,0 123.1,0.33\n", 70, 70);
+      fillMatrix = new JTextArea("3 3\n1 2 3\n1.2 1.3 1.4\n1.2,3.4 1,0 123.1,0.33\n", 40, 40);
       fillMatrix.setLineWrap(true);
       fillMatrix.setWrapStyleWord(true);
 
+      enter = new JButton("Add matrix");
+      enter.setPreferredSize(new Dimension(150, 60));
+      enter.addActionListener(new ActionListener() {
+        public void actionPerformed (ActionEvent event) {
+            Matrix.addMatrix(matrixName, fillMatrix.getText());
+
+            setVisible(false);
+            dispose();
+        }
+      });
+
       JPanel panel = new JPanel();
       panel.add(new JScrollPane(fillMatrix));
+      panel.add(enter);
       setContentPane(panel);
-
 
       setVisible(true);
     }
@@ -37,6 +50,7 @@ public class Application extends JFrame {
 
   private JPanel getMainKeys () {
     createMatrix = new JButton("Create matrix");
+    createMatrix.setPreferredSize(new Dimension(150, 60));
     matrixCalculations = new JButton("Calculations");
     matrixList = new JButton("List");
     deleteMatrix = new JButton("Delete matrix");
@@ -51,6 +65,7 @@ public class Application extends JFrame {
     });
 
     JPanel buttonsPanel = new JPanel(new FlowLayout());
+    buttonsPanel.setLayout(new GridLayout(4, 1, 100, 5));
 
     buttonsPanel.add(createMatrix, BorderLayout.NORTH);
     buttonsPanel.add(matrixCalculations, BorderLayout.NORTH);
@@ -62,6 +77,7 @@ public class Application extends JFrame {
 
   public Application () {
     super("Matricies");
+    setBounds(300, 300, 300, 300);
 
     add(getMainKeys(), BorderLayout.SOUTH);
 
