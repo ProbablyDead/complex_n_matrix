@@ -49,12 +49,12 @@ public class Matrix {
     str.close();
   }
 
-  public static void showMatricies () {
-    Enumeration<String> enumKey = MatrixTable.keys();
-
-    while (enumKey.hasMoreElements()) {
-      System.out.println(enumKey.nextElement());
+  public static String getMatricies () {
+    String result = "";
+    for (String key : MatrixTable.keySet()) {
+      result += key + "\n" + MatrixTable.get(key) + "-".repeat(59) + "\n";
     }
+    return result;
   }
   
   /** Вывод матрицы */
