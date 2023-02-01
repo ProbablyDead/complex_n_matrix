@@ -1,8 +1,6 @@
 import java.util.Hashtable;
 import java.util.Scanner;
 
-import javax.swing.Action;
-
 /** Класс матриц
  * @author the_best_earth_spirit_player
  * */
@@ -47,8 +45,16 @@ public class Matrix {
     return actions;
   }
 
+  public String getSize () {
+    return this.rows + " " + this.columns + "\n";
+  }
+
   public static boolean isMatrixEmpty () {
     return (MatrixTable.isEmpty());
+  }
+
+  public static void updateMatrix (String name, Matrix matrix) {
+    MatrixTable.put(name, matrix);
   }
 
   public static void addMatrix (String name, String fill) {
@@ -57,6 +63,10 @@ public class Matrix {
     tmp.fill_matrix(str);
     MatrixTable.put(name, tmp);
     str.close();
+  }
+
+  public static Matrix getMatrix (String name) {
+    return MatrixTable.get(name);
   }
 
   public static String getMatricies () {
@@ -68,8 +78,9 @@ public class Matrix {
   }
 
   public static String[] getMatriciesNames () {
-    String[] result = new String[MatrixTable.size()];
+    String[] result = new String[MatrixTable.size() + 1];
     int j = 0;
+    result[j++] = "None";
     for (String i : MatrixTable.keySet()) {
       result[j++] = i;
     }

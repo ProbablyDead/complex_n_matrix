@@ -16,36 +16,18 @@ public class Application extends JFrame {
     private JButton enter;
     private JButton refresh;
     private JTextArea field;
-    private DefaultComboBoxModel<String> chooseForSaveCBM;
-    private DefaultComboBoxModel<String> choose1CBM;
-    private DefaultComboBoxModel<String> choose2CBM;
     private Container panel;
 
     private calculationWindow () {
       super("Calculations");
       setLocation(600, 100);
 
-      chooseForSaveCBM = new DefaultComboBoxModel<String>();
-      choose1CBM = new DefaultComboBoxModel<String>();
-      choose2CBM = new DefaultComboBoxModel<String>();
       String[] arr = Matrix.getMatriciesNames();
-      chooseForSaveCBM.addElement("None");
-      choose1CBM.addElement("None");
-      choose2CBM.addElement("None");
-      for (String i : arr) { 
-        chooseForSaveCBM.addElement(i);
-        choose1CBM.addElement(i);
-        choose2CBM.addElement(i);
-      }
 
-      chooseMatrix1 = new JComboBox<>(choose1CBM);
-      chooseMatrix1.setPrototypeDisplayValue("Choose matrix");
-      chooseMatrix2 = new JComboBox<>(choose2CBM);
-      chooseMatrix2.setPrototypeDisplayValue("Choose matrix");
-      chooseAction = new JComboBox<>(new DefaultComboBoxModel<String>(Matrix.getActions()));
-      chooseAction.setPrototypeDisplayValue("Choose action");
-      chooseMatrixForSave = new JComboBox<>(chooseForSaveCBM);
-      chooseMatrixForSave.setPrototypeDisplayValue("Choose matrix");
+      chooseMatrix1 = new JComboBox<>(arr);
+      chooseMatrix2 = new JComboBox<>(arr);
+      chooseAction = new JComboBox<>(Matrix.getActions());
+      chooseMatrixForSave = new JComboBox<>(arr);
       createMatrix.setPreferredSize(new Dimension(200, 30));
 
       refresh = new JButton();
@@ -61,12 +43,71 @@ public class Application extends JFrame {
 
       enter = new JButton("Enter");
       enter.addActionListener(new ActionListener() {
+        final String noneStr = "None";
+
+        private boolean checkFilling (String first, String second) {
+          if (first == noneStr || second == noneStr) return false;
+          return true;
+        }
+        
+        private boolean checkFilling (String first) {
+          if (first == noneStr) return false;
+          return true;
+        }
+
         public void actionPerformed (ActionEvent event) {
+          final String action = (String)chooseAction.getSelectedItem();
+          if (action == noneStr) return;
+          final String matrixToSave = (String)chooseMatrixForSave.getSelectedItem();
+          final String matrix1 = (String)chooseMatrix1.getSelectedItem();
+          final String matrix2 = (String)chooseMatrix2.getSelectedItem();
+          Matrix result = null;
+          
+          switch (action) {
+            case ("+") :
+              {
+                if (!checkFilling(matrix1, matrix2)) return;
+                result = Matrix.getMatrix(matrix1).add(Matrix.getMatrix(matrix2));
+                break;
+              }
+            case ("-") :
+              {
+                if (!checkFilling(matrix1, matrix2)) return;
+                result = Matrix.getMatrix(matrix1).sub(Matrix.getMatrix(matrix2));
+                break;
+              }
+            case ("*") :
+              {
+                if (!checkFilling(matrix1, matrix2)) return;
+                result = Matrix.getMatrix(matrix1).multiply(Matrix.getMatrix(matrix2));
+                break;
+              }
+            case ("T") :
+              {
+                if (!checkFilling(matrix1)) return;
+                result = Matrix.getMatrix(matrix1).transposition();
+                break;
+              }
+            case ("det") :
+              {
+                if (!checkFilling(matrix1)) return;
+                field.setText(Matrix.getMatrix(matrix1).det().toString()); 
+                return;
+              }
+          }
+
+          if (matrixToSave != noneStr) {
+            Matrix.updateMatrix(matrixToSave, result);
+          }
+
+          field.setText(result.getSize() + result.toString());
         }
       });
 
       field = new JTextArea("", 30, 40);
       field.setEditable(false);
+      field.setLineWrap(true);
+      field.setWrapStyleWord(true);
 
       panel = getContentPane();
       panel.setLayout(new FlowLayout(FlowLayout.CENTER));
