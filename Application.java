@@ -1,8 +1,6 @@
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 import java.awt.*;
 import javax.swing.*;
+
 import java.awt.event.*;
 
 public class Application extends JFrame {
@@ -10,6 +8,50 @@ public class Application extends JFrame {
   private JButton matrixCalculations;
   private JButton matrixList;
   private JButton deleteMatrix;
+
+  private class calculationWindow extends JFrame {
+    private JComboBox<String> chooseMatrixForSave;
+    private JComboBox<String> chooseMatrix1;
+    private JComboBox<String> chooseAction;
+    private JComboBox<String> chooseMatrix2;
+    private JTextArea field;
+    private DefaultComboBoxModel<String> chooseCBM;
+    private Container panel;
+
+    private calculationWindow () {
+      super("Calculations");
+
+      chooseCBM = new DefaultComboBoxModel<String>();
+      String[] arr = Matrix.getMatriciesNames();
+      for ( String i : arr) 
+        chooseCBM.addElement(i);
+
+      chooseMatrix1 = new JComboBox<>(chooseCBM);
+      chooseMatrix1.setPrototypeDisplayValue("Choose matrix");
+      chooseMatrix2 = new JComboBox<>(chooseCBM);
+      chooseMatrix2.setPrototypeDisplayValue("Choose matrix");
+      chooseAction = new JComboBox<>(new DefaultComboBoxModel<String>(Matrix.getActions()));
+      chooseAction.setPrototypeDisplayValue("Choose action");
+      chooseMatrixForSave = new JComboBox<>(chooseCBM);
+      chooseMatrixForSave.setPrototypeDisplayValue("Choose matrix");
+
+      field = new JTextArea("", 30, 40);
+      field.setEditable(false);
+
+      panel = getContentPane();
+      panel.setLayout(new FlowLayout(FlowLayout.CENTER));
+      panel.add(chooseMatrix1);
+      panel.add(chooseAction);
+      panel.add(chooseMatrix2);
+      panel.add(new JScrollPane(field));
+      panel.add(chooseMatrixForSave);
+      panel.add(createMatrix);
+      setContentPane(panel);
+
+      setSize(500, 615);
+      setVisible(true);
+    }
+  }
 
   private class AddMatrixWindow extends JFrame {
     private JTextArea fillMatrix;
@@ -29,6 +71,7 @@ public class Application extends JFrame {
         public void actionPerformed (ActionEvent event) {
             Matrix.addMatrix(matrixName, fillMatrix.getText());
             deleteMatrix.setEnabled(!Matrix.isMatrixEmpty());
+            matrixCalculations.setEnabled(!Matrix.isMatrixEmpty());
             setVisible(false);
             dispose();
         }
@@ -66,6 +109,7 @@ public class Application extends JFrame {
     matrixList = new JButton("List");
     deleteMatrix = new JButton("Delete matrix");
     deleteMatrix.setEnabled(!Matrix.isMatrixEmpty());
+    matrixCalculations.setEnabled(!Matrix.isMatrixEmpty());
 
     createMatrix.addActionListener(new ActionListener() {
       public void actionPerformed (ActionEvent event) {
@@ -79,7 +123,9 @@ public class Application extends JFrame {
     
     matrixCalculations.addActionListener(new ActionListener() {
       public void actionPerformed (ActionEvent event) {
+        new calculationWindow ();
         deleteMatrix.setEnabled(!Matrix.isMatrixEmpty());
+        matrixCalculations.setEnabled(!Matrix.isMatrixEmpty());
       }
     });
 
@@ -87,6 +133,7 @@ public class Application extends JFrame {
       public void actionPerformed (ActionEvent event) {
         new AddMatrixWindow();
         deleteMatrix.setEnabled(!Matrix.isMatrixEmpty());
+        matrixCalculations.setEnabled(!Matrix.isMatrixEmpty());
       }
     });
 
@@ -97,6 +144,7 @@ public class Application extends JFrame {
             JOptionPane.QUESTION_MESSAGE, null, arr, arr[0]);
         Matrix.deleteMatrix(result);
         deleteMatrix.setEnabled(!Matrix.isMatrixEmpty());
+        matrixCalculations.setEnabled(!Matrix.isMatrixEmpty());
       }
     });
 

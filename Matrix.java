@@ -1,6 +1,8 @@
 import java.util.Hashtable;
 import java.util.Scanner;
 
+import javax.swing.Action;
+
 /** Класс матриц
  * @author the_best_earth_spirit_player
  * */
@@ -9,6 +11,7 @@ public class Matrix {
   private Complex[][] matrix;
   private int rows;
   private int columns;
+  private final static String[] actions = {"+", "-", "*", "T", "det"};
 
   /** Конструктор квадратной матрицы
    * @param ROWS_AND_COLUMNS_NUMBER количество строк и столбцов
@@ -38,6 +41,10 @@ public class Matrix {
         matrix[i][j] = Complex.input(in);
       }
     }
+  }
+
+  public static String[] getActions () {
+    return actions;
   }
 
   public static boolean isMatrixEmpty () {
@@ -82,6 +89,10 @@ public class Matrix {
     return result;
   }
 
+  public static void deleteMatrix (String element) {
+    MatrixTable.remove(element);
+  }
+
   /** Сложение матриц
    * @param arr слагаемое
    * */
@@ -95,10 +106,6 @@ public class Matrix {
       }
     }
     return tmp;
-  }
-
-  public static void deleteMatrix (String element) {
-    MatrixTable.remove(element);
   }
 
   /** Вычитание матриц
