@@ -111,6 +111,9 @@ public class Matrix {
     return result;
   }
 
+  /** Удаление матрицы из массива
+   * @param element название матрицы
+   * */
   public static void deleteMatrix (String element) {
     MatrixTable.remove(element);
   }
@@ -185,6 +188,9 @@ public class Matrix {
    return result;
   }
 
+  /** Умножение матрицы на число
+   * @param dig множитель
+   * */
   public Matrix multiply (Complex dig) {
     Matrix result = new Matrix(this.rows, this.columns);
 
