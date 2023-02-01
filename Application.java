@@ -1,6 +1,5 @@
 import java.awt.*;
 import javax.swing.*;
-
 import java.awt.event.*;
 
 public class Application extends JFrame {
@@ -15,37 +14,54 @@ public class Application extends JFrame {
     private JComboBox<String> chooseAction;
     private JComboBox<String> chooseMatrix2;
     private JButton enter;
+    private JButton refresh;
     private JTextArea field;
-    private DefaultComboBoxModel<String> chooseCBM;
+    private DefaultComboBoxModel<String> chooseForSaveCBM;
+    private DefaultComboBoxModel<String> choose1CBM;
+    private DefaultComboBoxModel<String> choose2CBM;
     private Container panel;
 
     private calculationWindow () {
       super("Calculations");
+      setLocation(600, 100);
 
-      chooseCBM = new DefaultComboBoxModel<String>();
+      chooseForSaveCBM = new DefaultComboBoxModel<String>();
+      choose1CBM = new DefaultComboBoxModel<String>();
+      choose2CBM = new DefaultComboBoxModel<String>();
       String[] arr = Matrix.getMatriciesNames();
-      chooseCBM.addElement("None");
-      for (String i : arr) 
-        chooseCBM.addElement(i);
+      chooseForSaveCBM.addElement("None");
+      choose1CBM.addElement("None");
+      choose2CBM.addElement("None");
+      for (String i : arr) { 
+        chooseForSaveCBM.addElement(i);
+        choose1CBM.addElement(i);
+        choose2CBM.addElement(i);
+      }
 
-      chooseMatrix1 = new JComboBox<>(chooseCBM);
+      chooseMatrix1 = new JComboBox<>(choose1CBM);
       chooseMatrix1.setPrototypeDisplayValue("Choose matrix");
-      chooseMatrix2 = new JComboBox<>(chooseCBM);
+      chooseMatrix2 = new JComboBox<>(choose2CBM);
       chooseMatrix2.setPrototypeDisplayValue("Choose matrix");
       chooseAction = new JComboBox<>(new DefaultComboBoxModel<String>(Matrix.getActions()));
       chooseAction.setPrototypeDisplayValue("Choose action");
-      chooseMatrixForSave = new JComboBox<>(chooseCBM);
+      chooseMatrixForSave = new JComboBox<>(chooseForSaveCBM);
       chooseMatrixForSave.setPrototypeDisplayValue("Choose matrix");
       createMatrix.setPreferredSize(new Dimension(200, 30));
-      createMatrix.addActionListener(new ActionListener() {
+
+      refresh = new JButton();
+      refresh.setIcon(new ImageIcon("src/refresh_icon.png"));
+      refresh.setContentAreaFilled(false);
+      refresh.addActionListener(new ActionListener() {
         public void actionPerformed (ActionEvent event) {
+          setVisible(false);
+          dispose();
+          new calculationWindow();
         }
       });
 
       enter = new JButton("Enter");
       enter.addActionListener(new ActionListener() {
         public void actionPerformed (ActionEvent event) {
-
         }
       });
 
@@ -60,6 +76,7 @@ public class Application extends JFrame {
       panel.add(new JScrollPane(field));
       panel.add(chooseMatrixForSave);
       panel.add(createMatrix);
+      panel.add(refresh);
       panel.add(enter);
       setContentPane(panel);
 
@@ -188,7 +205,4 @@ public class Application extends JFrame {
     this.setVisible(true);
   }
 
-  public void close () {
-    this.setVisible(false);
-  }
 }
