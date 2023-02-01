@@ -1,9 +1,11 @@
+import java.util.Hashtable;
 import java.util.Scanner;
 
 /** Класс матриц
  * @author the_best_earth_spirit_player
  * */
 public class Matrix {
+  private static Hashtable<String, Matrix> MatrixTable = new Hashtable<String, Matrix>();
   private Complex[][] matrix;
   private int rows;
   private int columns;
@@ -37,6 +39,64 @@ public class Matrix {
       }
     }
   }
+
+  /** Получение размеров матрицы */
+  public String getSize () {
+    return this.rows + " " + this.columns + "\n";
+  }
+
+  /** Проверка массива матриц на пустоту */
+  public static boolean isMatrixEmpty () {
+    return (MatrixTable.isEmpty());
+  }
+
+  /** Изменение матрицы в массиве
+   * @param name название матрицы
+   * @param matrix новая матрица
+   * */
+  public static void updateMatrix (String name, Matrix matrix) {
+    MatrixTable.put(name, matrix);
+  }
+ 
+  /** Добавление матрицы в массив 
+   * @param name название матрицы
+   * @param fill строка заполнения
+   * */
+  public static void addMatrix (String name, String fill) {
+    Scanner str = new Scanner(fill);
+    Matrix tmp = new Matrix(str.nextInt(), str.nextInt());
+    tmp.fill_matrix(str);
+    MatrixTable.put(name, tmp);
+    str.close();
+  }
+
+  /** Получить матрицу из таблицы
+   * @param name название матрицы
+   * */
+  public static Matrix getMatrix (String name) {
+    return MatrixTable.get(name);
+  }
+
+  /** Получить строку всех матриц */
+  public static String getMatricies () {
+    String result = "";
+    for (String key : MatrixTable.keySet()) {
+      Matrix tmp = MatrixTable.get(key);
+      result += key + " (" + tmp.rows + ", " + tmp.columns + ")\n" + tmp + "-".repeat(59) + "\n";
+    }
+    return result;
+  }
+
+  /** Получить массив всех названий матриц */
+  public static String[] getMatriciesNames () {
+    String[] result = new String[MatrixTable.size() + 1];
+    int j = 0;
+    result[j++] = "None";
+    for (String i : MatrixTable.keySet()) {
+      result[j++] = i;
+    }
+    return result;
+  }
   
   /** Вывод матрицы */
   @Override
@@ -49,6 +109,10 @@ public class Matrix {
       result += '\n';
     }
     return result;
+  }
+
+  public static void deleteMatrix (String element) {
+    MatrixTable.remove(element);
   }
 
   /** Сложение матриц
@@ -119,6 +183,18 @@ public class Matrix {
       }
     }
    return result;
+  }
+
+  public Matrix multiply (Complex dig) {
+    Matrix result = new Matrix(this.rows, this.columns);
+
+    for (int i = 0; i < result.rows; ++i) {
+      for (int j = 0; j < result.columns; ++j) {
+        result.matrix[i][j] = this.matrix[i][j].multiplication(dig);
+      }
+    }
+
+    return result;
   }
 
   /** Транспонирование матрицы */
