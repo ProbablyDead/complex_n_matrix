@@ -9,7 +9,6 @@ public class Matrix {
   private Complex[][] matrix;
   private int rows;
   private int columns;
-  private final static String[] actions = {"+", "-", "*", "T", "det"};
 
   /** Конструктор квадратной матрицы
    * @param ROWS_AND_COLUMNS_NUMBER количество строк и столбцов
@@ -41,22 +40,28 @@ public class Matrix {
     }
   }
 
-  public static String[] getActions () {
-    return actions;
-  }
-
+  /** Получение размеров матрицы */
   public String getSize () {
     return this.rows + " " + this.columns + "\n";
   }
 
+  /** Проверка массива матриц на пустоту */
   public static boolean isMatrixEmpty () {
     return (MatrixTable.isEmpty());
   }
 
+  /** Изменение матрицы в массиве
+   * @param name название матрицы
+   * @param matrix новая матрица
+   * */
   public static void updateMatrix (String name, Matrix matrix) {
     MatrixTable.put(name, matrix);
   }
-
+ 
+  /** Добавление матрицы в массив 
+   * @param name название матрицы
+   * @param fill строка заполнения
+   * */
   public static void addMatrix (String name, String fill) {
     Scanner str = new Scanner(fill);
     Matrix tmp = new Matrix(str.nextInt(), str.nextInt());
@@ -65,18 +70,24 @@ public class Matrix {
     str.close();
   }
 
+  /** Получить матрицу из таблицы
+   * @param name название матрицы
+   * */
   public static Matrix getMatrix (String name) {
     return MatrixTable.get(name);
   }
 
+  /** Получить строку всех матриц */
   public static String getMatricies () {
     String result = "";
     for (String key : MatrixTable.keySet()) {
-      result += key + "\n" + MatrixTable.get(key) + "-".repeat(59) + "\n";
+      Matrix tmp = MatrixTable.get(key);
+      result += key + " (" + tmp.rows + ", " + tmp.columns + ")\n" + tmp + "-".repeat(59) + "\n";
     }
     return result;
   }
 
+  /** Получить массив всех названий матриц */
   public static String[] getMatriciesNames () {
     String[] result = new String[MatrixTable.size() + 1];
     int j = 0;
