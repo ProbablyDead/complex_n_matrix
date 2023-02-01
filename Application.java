@@ -14,6 +14,7 @@ public class Application extends JFrame {
     private JComboBox<String> chooseMatrix1;
     private JComboBox<String> chooseAction;
     private JComboBox<String> chooseMatrix2;
+    private JButton enter;
     private JTextArea field;
     private DefaultComboBoxModel<String> chooseCBM;
     private Container panel;
@@ -23,7 +24,8 @@ public class Application extends JFrame {
 
       chooseCBM = new DefaultComboBoxModel<String>();
       String[] arr = Matrix.getMatriciesNames();
-      for ( String i : arr) 
+      chooseCBM.addElement("None");
+      for (String i : arr) 
         chooseCBM.addElement(i);
 
       chooseMatrix1 = new JComboBox<>(chooseCBM);
@@ -34,6 +36,18 @@ public class Application extends JFrame {
       chooseAction.setPrototypeDisplayValue("Choose action");
       chooseMatrixForSave = new JComboBox<>(chooseCBM);
       chooseMatrixForSave.setPrototypeDisplayValue("Choose matrix");
+      createMatrix.setPreferredSize(new Dimension(200, 30));
+      createMatrix.addActionListener(new ActionListener() {
+        public void actionPerformed (ActionEvent event) {
+        }
+      });
+
+      enter = new JButton("Enter");
+      enter.addActionListener(new ActionListener() {
+        public void actionPerformed (ActionEvent event) {
+
+        }
+      });
 
       field = new JTextArea("", 30, 40);
       field.setEditable(false);
@@ -46,6 +60,7 @@ public class Application extends JFrame {
       panel.add(new JScrollPane(field));
       panel.add(chooseMatrixForSave);
       panel.add(createMatrix);
+      panel.add(enter);
       setContentPane(panel);
 
       setSize(500, 615);
