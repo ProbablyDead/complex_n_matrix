@@ -107,7 +107,8 @@ public class Application extends JFrame {
             case ("det") :
               {
                 if (!checkFilling(matrix1)) return;
-                field.setText(Matrix.getMatrix(matrix1).det().toString()); 
+                String tmp = Matrix.getMatrix(matrix1).det().toString();
+                field.setText(tmp != null ? tmp : "Cannot do such operation"); 
                 return;
               }
           }
